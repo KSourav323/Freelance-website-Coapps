@@ -26,7 +26,8 @@ function Login()
         .then(res=>{
             if(res.data['statusCode']==200) 
             {
-              navigate('/landing');
+              let username= res.data['body']
+              navigate('/landing', {replace:true,state:{username}});
             }
             else
             {

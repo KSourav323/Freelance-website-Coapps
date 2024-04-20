@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import FCard from './freelancercard.jsx'
 import axios from 'axios';
 
-function Services()
+function Services({username})
 {
 
     const [search, setSearch] = useState('');
@@ -48,7 +48,7 @@ function Services()
 
         <div className='cards'>
           {freelancerList.map((item, index) => (
-            <FCard key={item.id} item={item}/>
+            <FCard key={item.id} item={item} username={username}/>
           ))}
         </div>
         

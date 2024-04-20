@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import '../style/pop.css'
+import axios from 'axios';
 
-const Popup = ({mode, item}) => {
+const Popup = ({mode, item, username}) => {
 
     const [isApplied, setIsApplied] = useState(false);
 
@@ -9,7 +10,24 @@ const Popup = ({mode, item}) => {
         setIsApplied(!isApplied);
     };
 
+    function sendmail(mailType){
+        
+        axios.post('http://localhost:8000/sendMail', {mode:mailType, item:item , username:username})
+        .then(res=>{
+            if(res.data['statusCode']==200) 
+            {
+                alert('Mail sent')
+            }
+            else
+            {
+                alert('unable to send mail')
+            }
+        })
+        .catch(err=>{
+            alert('server error')
+    })
 
+    }
   return (
     <div className='popup'>
     {mode === 'hire' ? (
@@ -23,7 +41,7 @@ const Popup = ({mode, item}) => {
                         <h3>{item.skills}</h3>
                         <h4>{item.about}</h4>
                     </div>
-                    <button className='applybtn' onClick={(e) => { e.preventDefault; switchApply(); } }>Hire</button>
+                    <button className='applybtn' onClick={(e) => { e.preventDefault; switchApply(); sendmail('hire')} }>Hire</button>
                 </div>
             ) : (
                 <p>
@@ -45,7 +63,7 @@ const Popup = ({mode, item}) => {
                         <h3>{item.title}</h3>
                         <h4>{item.description}</h4>
                     </div>
-                    <button className='applybtn' onClick={(e)=>{e.preventDefault; switchApply()}}>Request</button>
+                    <button className='applybtn' onClick={(e)=>{e.preventDefault; switchApply(); sendmail('job')}}>Request</button>
                 </div>
             ) : (
                 <p>

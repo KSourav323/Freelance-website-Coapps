@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from .models import Coapp
 from .models import Freelancer
 from .models import Jobs
-
+from django.core.mail import send_mail
 
 
 @csrf_exempt
@@ -32,6 +32,7 @@ def login(request):
             statusCode=500
 
         response = {
+            'body': user.username,
             'message': message,
             'statusCode': statusCode
         }
@@ -136,7 +137,6 @@ def getJob(request):
         }
         return JsonResponse(response)
     
-
 @csrf_exempt
 def putJob(request):
     if request.method == 'POST':
@@ -151,6 +151,45 @@ def putJob(request):
             j = Jobs(name=name, email=email, title=title, description= desc) 
             j.save()
             message='added'
+            statusCode=200
+
+        except Exception as e:
+            print(e)
+            message='Server error'
+            statusCode=500
+
+        response = {
+            'message': message,
+            'statusCode': statusCode
+        }
+        return JsonResponse(response)
+    
+@csrf_exempt
+def sendMail(request):
+    if request.method == 'POST':
+        input_data = json.loads(request.body)
+
+        try:
+            mode = input_data.get('mode','')
+            username = input_data.get('username','')
+            item = input_data.get('item','')
+            item_email=item.get('email', '')
+            item_name=item.get('name', '')
+
+            if mode == 'hire':
+                item_skills=item.get('skills', '')
+                message = f'Hi {item_name}, You have got a request from {username} to work for your skills in {item_skills}.\nContact {item_email} for further details.'.format(item_name, username, item_skills, item_email)
+            elif mode == 'job':
+                item_title=item.get('title', '')
+                message = f'Hi {item_name}, You got a request from {username} to work for your project {item_title}\nContact {item_email} for further details.'.format(item_name, username, item_title, item_email)
+            else:
+                print('some error') 
+            
+            subject = 'Mail from NeoHire'
+            sender_email = 'jesteenfinu@gmail.com'
+            send_mail(subject, message, sender_email, [item_email,])
+                  
+            message='mail sent'
             statusCode=200
 
         except Exception as e:

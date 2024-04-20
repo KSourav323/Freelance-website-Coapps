@@ -6,7 +6,6 @@ import Jobs from "../components/jobs";
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../style/navbar.css'
 import '../style/body.css'
-import { CgProfile } from "react-icons/cg";
 import { TbLogout2 } from "react-icons/tb";
 import { GrUserWorker } from "react-icons/gr";
 import { MdOutlineManageSearch } from "react-icons/md";
@@ -18,6 +17,7 @@ const Home = () => {
     
     const messege = location.state;
     const pageno = messege.pageno
+    const username = messege.username
 
 
     const navigate = useNavigate();
@@ -30,13 +30,13 @@ const Home = () => {
     }
 
     if (componentNumber === 1) {
-        componentToRender = <Services />;
+        componentToRender = <Services username={username}/>;
     } else if (componentNumber === 2) {
-        componentToRender = <Apply />;
+        componentToRender = <Apply username={username}/>;
     }  else if (componentNumber === 3) {
-            componentToRender = <Jobs />;
+            componentToRender = <Jobs username={username}/>;
     }  else if (componentNumber === 4) {
-        componentToRender = <Post />;
+        componentToRender = <Post username={username}/>;
     } else {
         componentToRender = <div>Click a button to render a component</div>;
     }

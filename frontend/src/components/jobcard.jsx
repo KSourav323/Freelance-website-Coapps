@@ -5,7 +5,7 @@ import axios from 'axios';
 import Popup from './popup.jsx'
 import { IoCloseOutline } from "react-icons/io5";
 
-function JCard({item})
+function JCard({item, username})
 {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -40,7 +40,7 @@ function JCard({item})
         {isPopupOpen && (
           <div className='pop'>
             <button className='closebtn' onClick={(e)=>{e.preventDefault; closePopup()}}><IoCloseOutline /></button>
-            <Popup mode={'job'} item={item}/>
+            <Popup mode={'job'} item={item} username={username}/>
           </div>
         )}
       </>

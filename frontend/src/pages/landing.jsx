@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, Link} from 'react-router-dom';
+import { useNavigate, useLocation} from 'react-router-dom';
 import '../style/navbar.css'
 import '../style/body.css'
 import '../style/main.css'
@@ -8,10 +8,15 @@ import { GrUserWorker } from "react-icons/gr";
 import { MdOutlineManageSearch } from "react-icons/md";
 
 const Landing = () => {
+
+    const location = useLocation();
+    
+    const messege = location.state;
+    const username = messege.username
     
     const navigate = useNavigate();
     function gotoHome(pageno) {
-        navigate('/home', {replace:true,state:{pageno}});
+        navigate('/home', {replace:true,state:{pageno, username}});
     }
 
     return (

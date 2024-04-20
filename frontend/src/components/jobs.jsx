@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import JCard from './jobcard.jsx'
 import axios from 'axios';
 
-function Jobs()
+function Jobs({username})
 {
 
     const [search, setSearch] = useState('');
@@ -51,7 +51,7 @@ function Jobs()
 
         <div className='cards'>
           {jobList.map((item, index) => (
-            <JCard key={item.id} item={item}/>
+            <JCard key={item.id} item={item} usename={username}/>
           ))}
         </div>
       </>

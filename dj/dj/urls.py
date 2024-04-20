@@ -24,5 +24,6 @@ urlpatterns = [
     path('getFreelancer', views.getFreelancer),
     path('putFreelancer', views.putFreelancer),
     path('getJob', views.getJob),
-    path('putJob', views.putJob)
+    path('putJob', views.putJob),
+    path('sendMail', views.sendMail),
 ]
